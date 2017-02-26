@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public interface PostServerCallback extends ServerCallback {
 
     void onPostFound(ArrayList<Post> posts);
-
     void onFailedLoadPost();
 
 }

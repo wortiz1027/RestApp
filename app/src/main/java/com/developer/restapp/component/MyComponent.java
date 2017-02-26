@@ -7,6 +7,8 @@ import com.developer.restapp.module.InteractorModule;
 import com.developer.restapp.module.NetModule;
 import com.developer.restapp.module.PostModule;
 import com.developer.restapp.presenter.Presenter;
+import com.developer.restapp.ui.activity.LoadPostFragment;
+import com.developer.restapp.ui.adapter.PostsResultsAdapter;
 
 import dagger.Component;
 
@@ -17,12 +19,11 @@ import dagger.Component;
           )
 public interface MyComponent {
 
-    //void inject();
+    void inject(LoadPostFragment fragment);
 
     Presenter getPresenter();
     Interactor getInteractor();
 
-    //TODO aplicar dependencia adaptador
-
+    PostsResultsAdapter getAdapter();
 
 }
