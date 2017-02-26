@@ -1,8 +1,23 @@
 package com.developer.restapp.presenter;
 
-/**
- * Created by PX60 on 26/02/2017.
- */
+import com.developer.restapp.interactor.Interactor;
+import com.developer.restapp.ui.view.View;
 
-public class Presenter {
+import javax.inject.Inject;
+
+public class Presenter implements IPresenter {
+
+    View view;
+    Interactor interactor;
+
+    @Inject
+    public Presenter(View view, Interactor interactor) {
+        this.view = view;
+        this.interactor = interactor;
+    }
+
+    @Override
+    public void onListPosts() {
+
+    }
 }

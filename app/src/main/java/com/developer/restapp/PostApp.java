@@ -7,7 +7,7 @@ import com.developer.restapp.component.MyComponent;
 
 public class PostApp extends Application {
 
-    private MyComponent component;
+    private PostAppComponent component;
 
     @Override
     public void onCreate(){
@@ -17,10 +17,12 @@ public class PostApp extends Application {
 
     private void setGraph() {
         // TODO implementar el Dagger component
-        //component =
+        component = DaggerPostAppComponent.builder()
+                                    .appModule(new AppModule(this))
+                                    .build();
     }
 
-    public MyComponent getComponent() {
+    public PostAppComponent getComponent() {
         return component;
     }
 

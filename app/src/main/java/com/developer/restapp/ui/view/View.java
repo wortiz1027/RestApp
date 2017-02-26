@@ -1,8 +1,14 @@
 package com.developer.restapp.ui.view;
 
-/**
- * Created by PX60 on 26/02/2017.
- */
+import com.developer.restapp.domain.Post;
+
+import java.util.ArrayList;
 
 public interface View {
+
+    void displayPosts(ArrayList<Post> posts);
+    void displayErrorPost();
+    void displayNetworkError();
+    void displayServerError();
+
 }
