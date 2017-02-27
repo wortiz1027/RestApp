@@ -1,5 +1,4 @@
-# RestApp
-# MVP
+# MVP - RestApp
 
 Este repositorio lo abrí con el proposito de intentar entender el patrón MVP, 
 he tratado de replicar este ejemplo y complementarlo con algunas cosas que he 
