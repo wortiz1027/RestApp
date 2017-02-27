@@ -3,7 +3,7 @@ package com.developer.restapp;
 import android.app.Application;
 import android.content.Context;
 
-import com.developer.restapp.component.MyComponent;
+import com.developer.restapp.module.NetModule;
 
 public class PostApp extends Application {
 
@@ -16,8 +16,8 @@ public class PostApp extends Application {
     }
 
     private void setGraph() {
-        // TODO implementar el Dagger component
         component = DaggerPostAppComponent.builder()
+                                    .netModule(new NetModule())
                                     .appModule(new AppModule(this))
                                     .build();
     }

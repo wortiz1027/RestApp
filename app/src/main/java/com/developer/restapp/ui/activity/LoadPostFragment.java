@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.developer.restapp.PostApp;
+import com.developer.restapp.PostAppComponent;
 import com.developer.restapp.R;
 import com.developer.restapp.common.BaseFragment;
 import com.developer.restapp.common.BasePresenter;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import retrofit2.Retrofit;
+
 public class LoadPostFragment extends BaseFragment implements com.developer.restapp.ui.view.View {
 
     @Inject
@@ -30,24 +34,21 @@ public class LoadPostFragment extends BaseFragment implements com.developer.rest
     @Inject
     PostsResultsAdapter adapter;
 
-    public LoadPostFragment() {
-
-    }
-
     @Override
     protected int getFragmentLayout() {
-        return 0;
+        return R.layout.fragment_load_post;
     }
 
     @Override
     protected BasePresenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     public void injectDependencies() {
         super.injectDependencies();
 
         DaggerMyComponent.builder()
+                .postAppComponent(PostApp.getApp(CONTEXT).getComponent())
                 .postModule(new PostModule(this))
                 .build()
                 .inject(this);
@@ -72,8 +73,6 @@ public class LoadPostFragment extends BaseFragment implements com.developer.rest
     public void displayServerError() {
         Toast.makeText(CONTEXT, R.string.error_server_message, Toast.LENGTH_LONG).show();
     }
-
-
 
     /*private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
