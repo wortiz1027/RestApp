@@ -1,16 +1,14 @@
 package com.developer.restapp.ui.activity;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.developer.restapp.PostApp;
-import com.developer.restapp.PostAppComponent;
 import com.developer.restapp.R;
 import com.developer.restapp.common.BaseFragment;
 import com.developer.restapp.common.BasePresenter;
@@ -24,8 +22,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import retrofit2.Retrofit;
-
 public class LoadPostFragment extends BaseFragment implements com.developer.restapp.ui.view.View {
 
     @Inject
@@ -33,6 +29,10 @@ public class LoadPostFragment extends BaseFragment implements com.developer.rest
 
     @Inject
     PostsResultsAdapter adapter;
+
+    private RecyclerView recyclerView;
+
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getFragmentLayout() {
@@ -55,6 +55,28 @@ public class LoadPostFragment extends BaseFragment implements com.developer.rest
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_load_post, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list_post);
+        linearLayoutManager = new LinearLayoutManager(CONTEXT);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        presenter.loadPost();
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.setAdapter(adapter);
+
+        return view;
+    }
+
+    @Override
     public void displayPosts(ArrayList<Post> posts) {
         presenter.onPostFound(posts);
     }
@@ -74,69 +96,4 @@ public class LoadPostFragment extends BaseFragment implements com.developer.rest
         Toast.makeText(CONTEXT, R.string.error_server_message, Toast.LENGTH_LONG).show();
     }
 
-    /*private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    @Inject
-    Presenter presenter;
-
-    public LoadPostFragment() {
-
-    }
-
-    public static LoadPostFragment newInstance(String param1, String param2) {
-        LoadPostFragment fragment = new LoadPostFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_load_post, container, false);
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }*/
 }

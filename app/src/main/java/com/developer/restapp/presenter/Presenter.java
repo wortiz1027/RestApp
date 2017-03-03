@@ -1,5 +1,7 @@
 package com.developer.restapp.presenter;
 
+import android.util.Log;
+
 import com.developer.restapp.common.BasePresenter;
 import com.developer.restapp.domain.Post;
 import com.developer.restapp.interactor.Interactor;
@@ -37,11 +39,13 @@ public class Presenter extends BasePresenter implements PostServerCallback {
 
     @Override
     public void onPostFound(ArrayList<Post> posts) {
+        Log.d("PRESENTER", "onPostFound: " + posts.size());
         view.displayPosts(posts);
     }
 
     @Override
     public void onFailedLoadPost() {
+        Log.d("PRESENTER", "onFailedLoadPost");
         view.displayErrorPost();
     }
 

@@ -2,6 +2,7 @@ package com.developer.restapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ public class PostsResultsAdapter extends RecyclerView.Adapter<PostsResultsAdapte
     public PostsResultsAdapter(Context context) {
         posts = new ArrayList<>();
         this.context = context;
+
+        Log.d("ADAPTER1","posts: " + posts.size());
     }
 
     @Override
@@ -35,7 +38,6 @@ public class PostsResultsAdapter extends RecyclerView.Adapter<PostsResultsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post currentPost = posts.get(position);
-
         holder.setTitulo(currentPost.getTitle());
         holder.setBody(currentPost.getBody());
     }
@@ -89,6 +91,7 @@ public class PostsResultsAdapter extends RecyclerView.Adapter<PostsResultsAdapte
             super(itemView);
             txtTitulo = (TextView) itemView.findViewById(R.id.textViewTitulo);
             txtBody = (TextView) itemView.findViewById(R.id.textViewBody);
+            Log.d("ADAPTER2","posts: " + posts.size() + txtTitulo.getText());
         }
 
         public void setTitulo(String titulo){

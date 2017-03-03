@@ -2,7 +2,6 @@ package com.developer.restapp.module;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 
 import com.developer.restapp.util.Constants;
@@ -16,8 +15,9 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -49,7 +49,13 @@ public class NetModule {
     @Singleton
     public OkHttpClient provideOkHttpClient(Cache cache){
         OkHttpClient.Builder client = new OkHttpClient.Builder();
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        client.addInterceptor(logging);
         client.cache(cache);
+
         return client.build();
     }
 
@@ -58,7 +64,7 @@ public class NetModule {
     public Retrofit provideRetrofit(Gson gson, OkHttpClient client){
         Retrofit retrofit = new Retrofit.Builder()
                                         .addConverterFactory(GsonConverterFactory.create(gson))
-                                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                                         .baseUrl(Constants.BASE_URL)
                                         .client(client)
                                         .build();

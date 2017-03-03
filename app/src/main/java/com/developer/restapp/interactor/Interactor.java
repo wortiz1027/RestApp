@@ -1,5 +1,7 @@
 package com.developer.restapp.interactor;
 
+import android.util.Log;
+
 import com.developer.restapp.io.ApiService;
 import com.developer.restapp.io.callback.PostServerCallback;
 
@@ -25,9 +27,12 @@ public class Interactor {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(postsResponse -> {
                                              callback.onPostFound(postsResponse.getPosts());
+                                            Log.d("INTERACTOR", "Consulta exitosa");
                                             },
                            throwable -> {
                                          callback.onFailedLoadPost();
+                                         Log.e("INTERACTOR", "ERROR CONSULTANDO POSTS " + throwable.toString());
+                                         throwable.printStackTrace();
                                         }
                           );
     }
