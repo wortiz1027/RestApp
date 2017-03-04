@@ -58,7 +58,3 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     provided 'javax.annotation:jsr250-api:1.0'
 }
-
-retrolambda {
-    jdk "C:\\software\\Java\\jdk1.8.0_112"
-}

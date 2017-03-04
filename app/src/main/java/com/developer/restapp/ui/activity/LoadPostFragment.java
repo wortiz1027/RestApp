@@ -78,7 +78,7 @@ public class LoadPostFragment extends BaseFragment implements com.developer.rest
 
     @Override
     public void displayPosts(ArrayList<Post> posts) {
-        presenter.onPostFound(posts);
+        adapter.replace(posts);
     }
 
     @Override

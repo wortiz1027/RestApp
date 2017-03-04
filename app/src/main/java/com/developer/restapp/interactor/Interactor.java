@@ -1,23 +1,28 @@
 package com.developer.restapp.interactor;
 
-import android.util.Log;
-
+import com.developer.restapp.domain.Post;
 import com.developer.restapp.io.ApiService;
 import com.developer.restapp.io.callback.PostServerCallback;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
+import retrofit2.HttpException;
 import retrofit2.Retrofit;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class Interactor {
 
+    public ArrayList<Post> posts;
     public Retrofit retrofit;
 
     @Inject
-    public Interactor(Retrofit retrofit) {
+    public Interactor(Retrofit retrofit, ArrayList<Post> posts) {
         this.retrofit = retrofit;
+        this.posts = posts;
     }
 
     public void posts(final PostServerCallback callback){
@@ -25,14 +30,21 @@ public class Interactor {
                 .loadPost()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(postsResponse -> {
-                                             callback.onPostFound(postsResponse.getPosts());
-                                            Log.d("INTERACTOR", "Consulta exitosa");
-                                            },
+                .subscribe(posts -> {
+                                        if (posts.isEmpty()){
+                                            callback.onFailedLoadPost();
+                                        }else{
+                                            callback.onPostFound(posts);
+                                        }
+                                    },
                            throwable -> {
-                                         callback.onFailedLoadPost();
-                                         Log.e("INTERACTOR", "ERROR CONSULTANDO POSTS " + throwable.toString());
-                                         throwable.printStackTrace();
+                                            if (throwable instanceof IOException){
+                                                callback.onNetworkError();
+                                            }
+
+                                            if (throwable instanceof HttpException){
+                                                callback.onServerError();
+                                            }
                                         }
                           );
     }

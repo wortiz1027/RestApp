@@ -39,13 +39,11 @@ public class Presenter extends BasePresenter implements PostServerCallback {
 
     @Override
     public void onPostFound(ArrayList<Post> posts) {
-        Log.d("PRESENTER", "onPostFound: " + posts.size());
         view.displayPosts(posts);
     }
 
     @Override
     public void onFailedLoadPost() {
-        Log.d("PRESENTER", "onFailedLoadPost");
         view.displayErrorPost();
     }
 
